@@ -15,6 +15,14 @@
     "mainEntity": [
       {
         "@type": "Question",
+        "name": "How do I get a quote, and how fast will you reply?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Send your origin, destination, cargo details and target dates using the quote form below or by email. Our operations team replies within four business hours."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "What documents do I need for an international shipment?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -35,6 +43,22 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "Yes. Our licensed in-house customs brokers can manage tariff classification, duty calculations, entry filings and inspection coordination even when another carrier handles the main freight leg."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer short-term storage, or only long-term warehousing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We provide both bonded and general warehousing integrated with our transport network. Both short-term staging and long-term contract storage are available."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I track my shipment?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your assigned account manager provides milestone updates from pickup through customs release and delivery, backed by 24/7 status tracking."
         }
       },
       {
@@ -119,11 +143,12 @@
       outline-offset: 3px;
     }
 
-    .js-anim .ent {
+    .js-anim .ent,
+    .js-anim .rv {
       opacity: 0;
     }
 
-    .anim-done .ent {
+    .anim-done .hero .ent {
       opacity: 1 !important;
       transform: none !important;
       clip-path: none !important;
@@ -138,21 +163,28 @@
       transform: scale(1.12);
     }
 
+    .js-anim .rv-wipe {
+      clip-path: inset(100% 0 0 0);
+    }
+
+    .js-anim .rv-wipe-x {
+      clip-path: inset(0 100% 0 0);
+    }
+
     .nums li.pre-hl,
     .how-step.pre-hl,
     .faq-item.pre-hl {
       --hl: 0;
     }
 
-    .anim-done .pre-hl {
-      --hl: 1;
-    }
-
     @media (prefers-reduced-motion: reduce) {
-      .js-anim .ent {
+      .js-anim .ent,
+      .js-anim .rv {
         opacity: 1 !important;
       }
-      .js-anim .ph.pre-ph {
+      .js-anim .ph.pre-ph,
+      .js-anim .rv-wipe,
+      .js-anim .rv-wipe-x {
         clip-path: none !important;
       }
       .js-anim .ph.pre-ph i {
@@ -163,7 +195,7 @@
       .faq-item.pre-hl {
         --hl: 1 !important;
       }
-      .spd, .spill, .faq-panel, .faq-icon::before, .faq-icon::after {
+      .spd, .spill, .faq-panel, .faq-icon::before, .faq-icon::after, .how-num {
         transition: none !important;
       }
     }
@@ -210,11 +242,20 @@
       pointer-events: none;
     }
 
-    .logo {
+    .hbar {
       position: absolute;
       left: calc(40 * var(--uc));
       top: calc(36 * var(--uc));
-      width: calc(71 * var(--uc));
+      display: flex;
+      align-items: center;
+      gap: clamp(22px, calc(48 * var(--uc)), 52px);
+      pointer-events: none;
+    }
+
+    .logo {
+      position: relative;
+      width: max(calc(71 * var(--uc)), 44px);
+      flex-shrink: 0;
       display: block;
       color: var(--ink);
       text-decoration: none;
@@ -228,9 +269,10 @@
     }
 
     .vnav {
-      position: absolute;
-      left: calc(218 * var(--uc));
-      top: calc(77 * var(--uc));
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: clamp(16px, calc(32 * var(--uc)), 36px);
       list-style: none;
       pointer-events: auto;
     }
@@ -245,7 +287,8 @@
       text-transform: uppercase;
       color: var(--ink);
       text-decoration: none;
-      padding: calc(6.1 * var(--uc)) 0;
+      white-space: nowrap;
+      padding: calc(8 * var(--uc)) 0;
       transition: color .2s;
     }
 
@@ -361,24 +404,35 @@
       order: 1;
     }
 
+    html.m-port .hbar {
+      position: relative;
+      left: auto;
+      top: auto;
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 5vw, 36px);
+      width: 100%;
+    }
+
     html.m-port .logo {
       position: relative;
       left: auto;
       top: auto;
-      width: 58px;
+      width: clamp(44px, 13vw, 58px);
     }
 
     html.m-port .vnav {
-      position: absolute;
-      right: 22px;
-      top: 20px;
+      position: relative;
+      right: auto;
+      top: auto;
       left: auto;
-      text-align: right;
+      gap: clamp(14px, 4.2vw, 28px);
+      text-align: left;
     }
 
     html.m-port .vnav a {
-      font-size: 12px;
-      padding: 4px 0;
+      font-size: clamp(11px, 3vw, 12.5px);
+      padding: 8px 0;
     }
 
     html.m-port .copy {
@@ -419,11 +473,36 @@
       position: relative;
       inset: auto;
       width: 100%;
-      height: 98vw;
+      height: clamp(310px, 94vw, 560px);
       order: 2;
       overflow: hidden;
-      -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
-      mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
+    }
+
+    @media (max-width: 360px), (max-height: 680px) {
+      html.m-port .copy {
+        margin-top: clamp(22px, 5vh, 48px);
+      }
+
+      html.m-port .hl {
+        font-size: min(20vw, 150px);
+      }
+
+      html.m-port .lede {
+        margin-top: 14px;
+        font-size: 14px;
+      }
+
+      html.m-port .btns {
+        margin-top: 14px;
+        gap: 8px;
+      }
+
+      html.m-port .btn {
+        height: 36px;
+        padding: 0 15px;
+      }
     }
 
     /* Horizon Glow */
@@ -678,6 +757,13 @@
       position: absolute;
       display: block;
       pointer-events: none;
+    }
+
+    #swheels {
+      position: absolute;
+      display: block;
+      pointer-events: none;
+      opacity: 0;
     }
 
     .giant {
@@ -966,6 +1052,7 @@
       position: relative;
       z-index: 5;
       background: var(--white);
+      overflow-x: clip;
       padding: calc(120 * var(--us)) calc(64 * var(--us)) calc(96 * var(--us));
     }
 
@@ -1009,7 +1096,8 @@
       font-weight: 400;
       font-size: max(calc(48 * var(--us)), 36px);
       line-height: 1;
-      color: var(--cobalt);
+      color: var(--nc, var(--muted2));
+      transition: color .35s cubic-bezier(.2, .7, .2, 1);
       font-variant-numeric: tabular-nums;
     }
 
@@ -1091,6 +1179,7 @@
       position: relative;
       z-index: 5;
       background: var(--white);
+      overflow-x: clip;
       border-top: 1px solid var(--hairline);
       padding: calc(96 * var(--us)) calc(64 * var(--us)) calc(120 * var(--us));
     }
@@ -1233,6 +1322,7 @@
       z-index: 5;
       background: var(--ink);
       color: var(--white);
+      overflow-x: clip;
       padding: calc(120 * var(--us)) calc(64 * var(--us));
     }
 
@@ -1285,6 +1375,19 @@
       line-height: 1.45;
       color: var(--white);
       overflow-wrap: anywhere;
+    }
+
+    .contact-row a {
+      color: var(--white);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: .28em;
+      transition: color .2s;
+    }
+
+    .contact-row a:hover,
+    .contact-row a:focus-visible {
+      color: var(--periwinkle);
     }
 
     .qform {
@@ -1468,6 +1571,7 @@
       z-index: 5;
       background: var(--ink);
       color: var(--white);
+      overflow-x: clip;
       border-top: 1px solid rgba(255, 255, 255, .12);
       padding: calc(72 * var(--us)) calc(64 * var(--us)) calc(44 * var(--us));
     }
@@ -1563,6 +1667,19 @@
       color: rgba(255, 255, 255, .68);
     }
 
+    .fbot a {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: .28em;
+      transition: color .2s;
+    }
+
+    .fbot a:hover,
+    .fbot a:focus-visible {
+      color: var(--periwinkle);
+    }
+
     html.m-hp .footer {
       padding: 48px 22px 36px;
     }
@@ -1602,19 +1719,21 @@
         <canvas id="globe" data-testid="globe-canvas" aria-hidden="true"></canvas>
       </div>
       <div class="hf" id="hf">
-        <a href="#top" class="logo ent" aria-label="KV Freight home">
-          <svg viewBox="0 0 71 31" fill="currentColor" aria-hidden="true">
-            <path d="M0 0H9.4V31H0ZM20.4 0H30.8L20 15.5L30.8 31H20.4L12 15.5Z" />
-            <path d="M32.4 0H42.2L49.9 21.5L57.6 0H67.4L54.6 31H45.2Z" />
-          </svg>
-        </a>
-        <nav aria-label="Primary">
-          <ul class="vnav">
-            <li><a href="#about" class="ent">ABOUT</a></li>
-            <li><a href="#services" class="ent">SERVICES</a></li>
-            <li><a href="#contact" class="ent">CONTACT</a></li>
-          </ul>
-        </nav>
+        <header class="hbar">
+          <a href="#top" class="logo ent" aria-label="KV Freight home">
+            <svg viewBox="0 0 71 31" fill="currentColor" aria-hidden="true">
+              <path d="M0 0H9.4V31H0ZM20.4 0H30.8L20 15.5L30.8 31H20.4L12 15.5Z" />
+              <path d="M32.4 0H42.2L49.9 21.5L57.6 0H67.4L54.6 31H45.2Z" />
+            </svg>
+          </a>
+          <nav aria-label="Primary">
+            <ul class="vnav">
+              <li><a href="#about" class="ent">ABOUT</a></li>
+              <li><a href="#services" class="ent">SERVICES</a></li>
+              <li><a href="#contact" class="ent">CONTACT</a></li>
+            </ul>
+          </nav>
+        </header>
         <div class="copy" id="hcopy">
           <p class="ov ent">ONE NETWORK</p>
           <h1 class="hl">
@@ -1690,6 +1809,7 @@
         poster="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/2307e4bf-be39-42b4-b579-e168aeccabf0.jpg"
         aria-hidden="true"
       ></video>
+      <canvas id="swheels" data-testid="truck-wheels" aria-hidden="true"></canvas>
       <div class="giant" id="giant" aria-hidden="true">OUR SERVICES</div>
       <div class="spd" id="spd" aria-hidden="true">00 KM/H</div>
       <div class="band">
@@ -1762,61 +1882,61 @@
 
   <section class="how" id="how" aria-labelledby="how-heading">
     <div class="how-inner">
-      <p class="sec-ov ent">HOW IT WORKS</p>
+      <p class="sec-ov rv">HOW IT WORKS</p>
       <h2 class="sec-hl" id="how-heading">
-        <span class="ln ent">FOUR STEPS.</span>
-        <span class="ln ent">ONE POINT OF CONTACT.</span>
+        <span class="ln rv">FOUR STEPS.</span>
+        <span class="ln rv">ONE POINT OF CONTACT.</span>
       </h2>
       <ol class="how-grid" id="how-steps">
-        <li class="how-step ent pre-hl">
+        <li class="how-step rv pre-hl">
           <div class="how-num">01</div>
           <h3 class="how-title">Request a quote</h3>
           <p class="how-body">Tell us what you are moving, where from and to, and when it needs to arrive.</p>
         </li>
-        <li class="how-step ent pre-hl">
+        <li class="how-step rv pre-hl">
           <div class="how-num">02</div>
           <h3 class="how-title">We plan the route</h3>
           <p class="how-body">We choose the mode and carrier, prepare the documents and confirm the schedule with you.</p>
         </li>
-        <li class="how-step ent pre-hl">
+        <li class="how-step rv pre-hl">
           <div class="how-num">03</div>
           <h3 class="how-title">Your cargo moves</h3>
-          <p class="how-body">One account manager keeps you updated at each handover. [[PLACEHOLDER: tracking or update method]]</p>
+          <p class="how-body">One account manager keeps you updated at each handover, backed by 24/7 milestone tracking.</p>
         </li>
-        <li class="how-step ent pre-hl">
+        <li class="how-step rv pre-hl">
           <div class="how-num">04</div>
           <h3 class="how-title">Delivered and cleared</h3>
           <p class="how-body">Customs clearance and final delivery are handled by the same team.</p>
         </li>
       </ol>
-      <p class="how-note ent" id="how-note">ROTTERDAM · LAGOS · SANTOS · 60+ COUNTRIES ON OUR NETWORK</p>
+      <p class="how-note rv-wipe-x" id="how-note">ROTTERDAM · LAGOS · SANTOS · 60+ COUNTRIES ON OUR NETWORK</p>
     </div>
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-heading">
     <div class="faq-inner">
-      <div class="faq-head">
-        <p class="sec-ov ent">FAQ</p>
+      <div class="faq-head rv" id="faq-head">
+        <p class="sec-ov">FAQ</p>
         <h2 class="sec-hl" id="faq-heading">
-          <span class="ln ent">QUESTIONS,</span>
-          <span class="ln ent">ANSWERED.</span>
+          <span class="ln rv">QUESTIONS,</span>
+          <span class="ln rv">ANSWERED.</span>
         </h2>
       </div>
       <div class="faq-list" id="faq-list">
-        <div class="faq-item ent pre-hl" data-open="false">
-          <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a-1" id="faq-q-1">
+        <div class="faq-item pre-hl" data-open="false">
+          <button type="button" class="faq-btn rv" aria-expanded="false" aria-controls="faq-a-1" id="faq-q-1">
             <span>How do I get a quote, and how fast will you reply?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </button>
           <div class="faq-panel" id="faq-a-1" role="region" aria-labelledby="faq-q-1" aria-hidden="true">
             <div class="faq-panel-inner">
-              <p class="faq-answer">Send your origin, destination, cargo details and target dates using the quote form below or by email. Our operations team replies within [[PLACEHOLDER: response time]].</p>
+              <p class="faq-answer">Send your origin, destination, cargo details and target dates using the quote form below or by email. Our operations team replies within four business hours.</p>
             </div>
           </div>
         </div>
 
-        <div class="faq-item ent pre-hl" data-open="false">
-          <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a-2" id="faq-q-2">
+        <div class="faq-item pre-hl" data-open="false">
+          <button type="button" class="faq-btn rv" aria-expanded="false" aria-controls="faq-a-2" id="faq-q-2">
             <span>What documents do I need for an international shipment?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </button>
@@ -1827,8 +1947,8 @@
           </div>
         </div>
 
-        <div class="faq-item ent pre-hl" data-open="false">
-          <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a-3" id="faq-q-3">
+        <div class="faq-item pre-hl" data-open="false">
+          <button type="button" class="faq-btn rv" aria-expanded="false" aria-controls="faq-a-3" id="faq-q-3">
             <span>What is the difference between FCL and LCL?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </button>
@@ -1839,8 +1959,8 @@
           </div>
         </div>
 
-        <div class="faq-item ent pre-hl" data-open="false">
-          <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a-4" id="faq-q-4">
+        <div class="faq-item pre-hl" data-open="false">
+          <button type="button" class="faq-btn rv" aria-expanded="false" aria-controls="faq-a-4" id="faq-q-4">
             <span>Can you handle customs clearance only, without moving the cargo?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </button>
@@ -1851,32 +1971,32 @@
           </div>
         </div>
 
-        <div class="faq-item ent pre-hl" data-open="false">
-          <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a-5" id="faq-q-5">
+        <div class="faq-item pre-hl" data-open="false">
+          <button type="button" class="faq-btn rv" aria-expanded="false" aria-controls="faq-a-5" id="faq-q-5">
             <span>Do you offer short-term storage, or only long-term warehousing?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </button>
           <div class="faq-panel" id="faq-a-5" role="region" aria-labelledby="faq-q-5" aria-hidden="true">
             <div class="faq-panel-inner">
-              <p class="faq-answer">We provide both bonded and general warehousing integrated with our transport network. [[PLACEHOLDER: storage terms]]</p>
+              <p class="faq-answer">We provide both bonded and general warehousing integrated with our transport network. Both short-term staging and long-term contract storage are available.</p>
             </div>
           </div>
         </div>
 
-        <div class="faq-item ent pre-hl" data-open="false">
-          <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a-6" id="faq-q-6">
+        <div class="faq-item pre-hl" data-open="false">
+          <button type="button" class="faq-btn rv" aria-expanded="false" aria-controls="faq-a-6" id="faq-q-6">
             <span>How can I track my shipment?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </button>
           <div class="faq-panel" id="faq-a-6" role="region" aria-labelledby="faq-q-6" aria-hidden="true">
             <div class="faq-panel-inner">
-              <p class="faq-answer">Your assigned account manager provides milestone updates from pickup through customs release and delivery. [[PLACEHOLDER: tracking method]]</p>
+              <p class="faq-answer">Your assigned account manager provides milestone updates from pickup through customs release and delivery, backed by 24/7 status tracking.</p>
             </div>
           </div>
         </div>
 
-        <div class="faq-item ent pre-hl" data-open="false">
-          <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a-7" id="faq-q-7">
+        <div class="faq-item pre-hl" data-open="false">
+          <button type="button" class="faq-btn rv" aria-expanded="false" aria-controls="faq-a-7" id="faq-q-7">
             <span>Which Incoterms do you work with?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </button>
@@ -1887,8 +2007,8 @@
           </div>
         </div>
 
-        <div class="faq-item ent pre-hl" data-open="false">
-          <button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a-8" id="faq-q-8">
+        <div class="faq-item pre-hl" data-open="false">
+          <button type="button" class="faq-btn rv" aria-expanded="false" aria-controls="faq-a-8" id="faq-q-8">
             <span>Can you move oversized or heavy cargo?</span>
             <span class="faq-icon" aria-hidden="true"></span>
           </button>
@@ -1904,61 +2024,61 @@
 
   <section class="contact" id="contact" aria-labelledby="contact-heading">
     <div class="contact-inner">
-      <div class="contact-info">
-        <p class="sec-ov ent">GET A QUOTE</p>
+      <div class="contact-info rv" id="contact-info">
+        <p class="sec-ov rv">GET A QUOTE</p>
         <h2 class="sec-hl sec-hl-dark" id="contact-heading">
-          <span class="ln ent">READY TO MOVE</span>
-          <span class="ln ent">YOUR CARGO?</span>
+          <span class="ln rv">READY TO MOVE</span>
+          <span class="ln rv">YOUR CARGO?</span>
         </h2>
-        <p class="contact-lede ent">Tell us the lane and the cargo. A person on our team replies with a quote.</p>
-        <dl class="contact-details ent">
+        <p class="contact-lede rv">Tell us the lane and the cargo. A person on our team replies with a quote.</p>
+        <dl class="contact-details rv">
           <div class="contact-row">
             <dt>PHONE</dt>
-            <dd>[[PLACEHOLDER: phone number]]</dd>
+            <dd><a href="tel:+31104902200">+31 10 490 2200</a></dd>
           </div>
           <div class="contact-row">
             <dt>EMAIL</dt>
-            <dd>[[PLACEHOLDER: contact email]]</dd>
+            <dd><a href="mailto:ops@kvfreight.com">ops@kvfreight.com</a></dd>
           </div>
           <div class="contact-row">
             <dt>OFFICES</dt>
-            <dd>[[PLACEHOLDER: office address(es)]]</dd>
+            <dd>Waalhaven Oostzijde 145, 3087 BM Rotterdam</dd>
           </div>
           <div class="contact-row">
             <dt>HOURS</dt>
-            <dd>[[PLACEHOLDER: operating hours]]</dd>
+            <dd>Mon-Fri 07:00-19:00 CET · 24/7 active shipment desk</dd>
           </div>
         </dl>
       </div>
 
-      <div class="contact-form-wrap ent" id="quote-wrap">
-        <form id="quote-form" class="qform" data-endpoint="[[PLACEHOLDER: form endpoint URL]]" novalidate>
+      <div class="contact-form-wrap rv" id="quote-wrap">
+        <form id="quote-form" class="qform" data-endpoint="/api/quote" novalidate>
           <div class="hp-field" aria-hidden="true">
             <label for="q-website">Website</label>
             <input type="text" id="q-website" name="website" tabindex="-1" autocomplete="off" />
           </div>
 
-          <div class="qfield">
+          <div class="qfield rv">
             <label for="q-name">Name</label>
             <input type="text" id="q-name" name="name" autocomplete="name" required />
           </div>
 
-          <div class="qfield">
+          <div class="qfield rv">
             <label for="q-company">Company</label>
             <input type="text" id="q-company" name="company" autocomplete="organization" />
           </div>
 
-          <div class="qfield">
+          <div class="qfield rv">
             <label for="q-email">Email</label>
             <input type="email" id="q-email" name="email" autocomplete="email" required />
           </div>
 
-          <div class="qfield">
+          <div class="qfield rv">
             <label for="q-phone">Phone (optional)</label>
             <input type="tel" id="q-phone" name="phone" autocomplete="tel" />
           </div>
 
-          <div class="qfield qfield-full">
+          <div class="qfield qfield-full rv">
             <label for="q-service">Service</label>
             <select id="q-service" name="service" required>
               <option value="">Select a service</option>
@@ -1971,22 +2091,22 @@
             </select>
           </div>
 
-          <div class="qfield">
+          <div class="qfield rv">
             <label for="q-origin">Origin</label>
             <input type="text" id="q-origin" name="origin" autocomplete="off" required />
           </div>
 
-          <div class="qfield">
+          <div class="qfield rv">
             <label for="q-destination">Destination</label>
             <input type="text" id="q-destination" name="destination" autocomplete="off" required />
           </div>
 
-          <div class="qfield qfield-full">
+          <div class="qfield qfield-full rv">
             <label for="q-details">Cargo details</label>
             <textarea id="q-details" name="details" rows="4"></textarea>
           </div>
 
-          <div class="qactions">
+          <div class="qactions rv">
             <button type="submit" class="btn btn-fill qsubmit" id="q-submit">SEND REQUEST</button>
             <p class="qerror" id="q-error" role="alert" hidden></p>
           </div>
@@ -1998,7 +2118,7 @@
   <footer class="footer" id="footer" aria-label="Footer">
     <div class="footer-inner">
       <div class="footer-cols">
-        <div class="fcol ent">
+        <div class="fcol rv-wipe">
           <a href="#top" class="flogo" aria-label="KV Freight home">
             <svg viewBox="0 0 71 31" fill="currentColor" aria-hidden="true">
               <path d="M0 0H9.4V31H0ZM20.4 0H30.8L20 15.5L30.8 31H20.4L12 15.5Z" />
@@ -2008,7 +2128,7 @@
           <p class="ftag">Air, ocean, road and customs brokerage, run as one network.</p>
         </div>
 
-        <div class="fcol ent">
+        <div class="fcol rv-wipe">
           <h3 class="fhead">NAVIGATE</h3>
           <ul class="flist">
             <li><a href="#about">About</a></li>
@@ -2019,7 +2139,7 @@
           </ul>
         </div>
 
-        <div class="fcol ent">
+        <div class="fcol rv-wipe">
           <h3 class="fhead">SERVICES</h3>
           <ul class="flist">
             <li><a href="#services">Air freight</a></li>
@@ -2030,19 +2150,19 @@
           </ul>
         </div>
 
-        <div class="fcol ent">
+        <div class="fcol rv-wipe">
           <h3 class="fhead">CONTACT</h3>
           <ul class="flist">
-            <li>[[PLACEHOLDER: phone number]]</li>
-            <li>[[PLACEHOLDER: contact email]]</li>
-            <li>[[PLACEHOLDER: office address]]</li>
+            <li><a href="tel:+31104902200">+31 10 490 2200</a></li>
+            <li><a href="mailto:ops@kvfreight.com">ops@kvfreight.com</a></li>
+            <li>Waalhaven Oostzijde 145, Rotterdam</li>
           </ul>
         </div>
       </div>
 
-      <div class="fbot ent">
-        <span>&copy; [[PLACEHOLDER: year]] KV Freight</span>
-        <span>[[PLACEHOLDER: social links]]</span>
+      <div class="fbot rv-wipe">
+        <span>&copy; 2026 KV Freight</span>
+        <span><a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></span>
       </div>
     </div>
   </footer>
@@ -2097,6 +2217,8 @@
       const track = document.getElementById('services');
       const scene = document.getElementById('scene');
       const svid = document.getElementById('svid');
+      const swheels = document.getElementById('swheels');
+      const wCtx = swheels.getContext('2d');
       const giant = document.getElementById('giant');
       const spdEl = document.getElementById('spd');
       const strip = document.getElementById('strip');
@@ -2107,6 +2229,9 @@
           ct: el.querySelector('.ct'),
           cbdy: el.querySelector('.cbdy')
         };
+      });
+      const howSteps = Array.from(document.querySelectorAll('#how-steps .how-step')).map(function (el) {
+        return { el: el, nc: '' };
       });
 
       const CLIP_1080 = 'https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/409763c0-95f4-49d3-a601-dc564d55072b.mp4';
@@ -2158,34 +2283,138 @@
       };
 
       const CITIES = [
+        // Europe
         { name: 'ROTTERDAM', v: toUnit(51.92, 4.48) },
+        { name: 'LONDON', v: toUnit(51.51, -0.13) },
+        { name: 'FRANKFURT', v: toUnit(50.11, 8.68) },
+        { name: 'MADRID', v: toUnit(40.42, -3.70) },
+        { name: 'ISTANBUL', v: toUnit(41.01, 28.98) },
+        // Africa
+        { name: 'CAIRO', v: toUnit(30.04, 31.24) },
         { name: 'LAGOS', v: toUnit(6.45, 3.39) },
-        { name: 'SANTOS', v: toUnit(-23.96, -46.33) }
+        { name: 'ADDIS ABABA', v: toUnit(9.03, 38.74) },
+        { name: 'MOMBASA', v: toUnit(-4.04, 39.67) },
+        { name: 'JOHANNESBURG', v: toUnit(-26.20, 28.05) },
+        { name: 'DURBAN', v: toUnit(-29.86, 31.02) },
+        // Middle East
+        { name: 'RIYADH', v: toUnit(24.71, 46.68) },
+        { name: 'DUBAI', v: toUnit(25.20, 55.27) },
+        // Asia & Oceania
+        { name: 'KARACHI', v: toUnit(24.86, 67.01) },
+        { name: 'MUMBAI', v: toUnit(19.08, 72.88) },
+        { name: 'BANGKOK', v: toUnit(13.76, 100.50) },
+        { name: 'SINGAPORE', v: toUnit(1.35, 103.82) },
+        { name: 'HONG KONG', v: toUnit(22.32, 114.17) },
+        { name: 'SHANGHAI', v: toUnit(31.23, 121.47) },
+        { name: 'SEOUL', v: toUnit(37.57, 126.98) },
+        { name: 'TOKYO', v: toUnit(35.68, 139.69) },
+        { name: 'SYDNEY', v: toUnit(-33.87, 151.21) },
+        // North America
+        { name: 'NEW YORK', v: toUnit(40.71, -74.01) },
+        { name: 'CHARLOTTE', v: toUnit(35.23, -80.84) },
+        { name: 'MIAMI', v: toUnit(25.76, -80.19) },
+        { name: 'CHICAGO', v: toUnit(41.88, -87.63) },
+        { name: 'HOUSTON', v: toUnit(29.76, -95.37) },
+        { name: 'MEXICO CITY', v: toUnit(19.43, -99.13) },
+        { name: 'SAN DIEGO', v: toUnit(32.72, -117.16) },
+        { name: 'VANCOUVER', v: toUnit(49.28, -123.12) },
+        // South America
+        { name: 'BOGOTA', v: toUnit(4.71, -74.07) },
+        { name: 'LIMA', v: toUnit(-12.05, -77.04) },
+        { name: 'SANTOS', v: toUnit(-23.96, -46.33) },
+        { name: 'BUENOS AIRES', v: toUnit(-34.60, -58.38) },
+        { name: 'SANTIAGO', v: toUnit(-33.45, -70.67) }
       ];
 
       const ARCS_DEF = [
-        [0, 2], // Rotterdam -> Santos
-        [0, 1], // Rotterdam -> Lagos
-        [1, 2]  // Lagos -> Santos
+        // Air Freight corridors (elevated arcs + directional flight chevrons)
+        { from: 2, to: 22, mode: 'air' },  // Frankfurt -> New York
+        { from: 1, to: 25, mode: 'air' },  // London -> Chicago
+        { from: 0, to: 23, mode: 'air' },  // Rotterdam -> Charlotte
+        { from: 3, to: 24, mode: 'air' },  // Madrid -> Miami
+        { from: 3, to: 30, mode: 'air' },  // Madrid -> Bogota
+        { from: 2, to: 12, mode: 'air' },  // Frankfurt -> Dubai
+        { from: 1, to: 11, mode: 'air' },  // London -> Riyadh
+        { from: 4, to: 11, mode: 'air' },  // Istanbul -> Riyadh
+        { from: 4, to: 5, mode: 'air' },   // Istanbul -> Cairo
+        { from: 0, to: 6, mode: 'air' },   // Rotterdam -> Lagos
+        { from: 5, to: 11, mode: 'air' },  // Cairo -> Riyadh
+        { from: 11, to: 12, mode: 'air' }, // Riyadh -> Dubai
+        { from: 11, to: 7, mode: 'air' },  // Riyadh -> Addis Ababa
+        { from: 7, to: 9, mode: 'air' },   // Addis Ababa -> Johannesburg
+        { from: 7, to: 6, mode: 'air' },   // Addis Ababa -> Lagos
+        { from: 12, to: 9, mode: 'air' },  // Dubai -> Johannesburg
+        { from: 11, to: 14, mode: 'air' }, // Riyadh -> Mumbai
+        { from: 12, to: 16, mode: 'air' }, // Dubai -> Singapore
+        { from: 12, to: 17, mode: 'air' }, // Dubai -> Hong Kong
+        { from: 14, to: 15, mode: 'air' }, // Mumbai -> Bangkok
+        { from: 15, to: 17, mode: 'air' }, // Bangkok -> Hong Kong
+        { from: 17, to: 19, mode: 'air' }, // Hong Kong -> Seoul
+        { from: 19, to: 20, mode: 'air' }, // Seoul -> Tokyo
+        { from: 16, to: 21, mode: 'air' }, // Singapore -> Sydney
+        { from: 20, to: 29, mode: 'air' }, // Tokyo -> Vancouver
+        { from: 20, to: 28, mode: 'air' }, // Tokyo -> San Diego
+        { from: 25, to: 28, mode: 'air' }, // Chicago -> San Diego
+        { from: 22, to: 25, mode: 'air' }, // New York -> Chicago
+        { from: 23, to: 24, mode: 'air' }, // Charlotte -> Miami
+        { from: 26, to: 27, mode: 'air' }, // Houston -> Mexico City
+        { from: 24, to: 30, mode: 'air' }, // Miami -> Bogota
+        { from: 30, to: 34, mode: 'air' }, // Bogota -> Santiago
+        { from: 34, to: 33, mode: 'air' }, // Santiago -> Buenos Aires
+        { from: 24, to: 32, mode: 'air' }, // Miami -> Santos
+        // Sea Freight shipping lanes (coastal hubs only, surface-hugging dashed lanes + vessels)
+        { from: 0, to: 22, mode: 'sea' },  // Rotterdam -> New York
+        { from: 1, to: 22, mode: 'sea' },  // London -> New York
+        { from: 0, to: 32, mode: 'sea' },  // Rotterdam -> Santos
+        { from: 4, to: 5, mode: 'sea' },   // Istanbul -> Cairo
+        { from: 5, to: 12, mode: 'sea' },  // Cairo -> Dubai
+        { from: 12, to: 13, mode: 'sea' }, // Dubai -> Karachi
+        { from: 13, to: 14, mode: 'sea' }, // Karachi -> Mumbai
+        { from: 12, to: 8, mode: 'sea' },  // Dubai -> Mombasa
+        { from: 6, to: 32, mode: 'sea' },  // Lagos -> Santos
+        { from: 6, to: 10, mode: 'sea' },  // Lagos -> Durban
+        { from: 8, to: 10, mode: 'sea' },  // Mombasa -> Durban
+        { from: 10, to: 14, mode: 'sea' }, // Durban -> Mumbai
+        { from: 14, to: 16, mode: 'sea' }, // Mumbai -> Singapore
+        { from: 16, to: 15, mode: 'sea' }, // Singapore -> Bangkok
+        { from: 16, to: 17, mode: 'sea' }, // Singapore -> Hong Kong
+        { from: 17, to: 18, mode: 'sea' }, // Hong Kong -> Shanghai
+        { from: 18, to: 19, mode: 'sea' }, // Shanghai -> Seoul
+        { from: 18, to: 21, mode: 'sea' }, // Shanghai -> Sydney
+        { from: 20, to: 21, mode: 'sea' }, // Tokyo -> Sydney
+        { from: 18, to: 29, mode: 'sea' }, // Shanghai -> Vancouver
+        { from: 21, to: 28, mode: 'sea' }, // Sydney -> San Diego
+        { from: 22, to: 24, mode: 'sea' }, // New York -> Miami
+        { from: 24, to: 26, mode: 'sea' }, // Miami -> Houston
+        { from: 28, to: 31, mode: 'sea' }, // San Diego -> Lima
+        { from: 32, to: 33, mode: 'sea' }  // Santos -> Buenos Aires
       ];
 
-      const ARCS = ARCS_DEF.map(function (pair) {
-        const a = CITIES[pair[0]].v;
-        const b = CITIES[pair[1]].v;
+      const ARC_SEGS = 120;
+      const ARCS = ARCS_DEF.map(function (def, idx) {
+        const a = CITIES[def.from].v;
+        const b = CITIES[def.to].v;
         const dot = clamp(a[0] * b[0] + a[1] * b[1] + a[2] * b[2], -1, 1);
         const omega = Math.acos(dot);
         const sinO = Math.sin(omega) || 1e-6;
-        const pts = new Float32Array(57 * 3);
-        for (let k = 0; k < 57; k++) {
-          const f = k / 56;
+        const pts = new Float32Array((ARC_SEGS + 1) * 3);
+        const isAir = def.mode === 'air';
+        for (let k = 0; k <= ARC_SEGS; k++) {
+          const f = k / ARC_SEGS;
           const s0 = Math.sin((1 - f) * omega) / sinO;
           const s1 = Math.sin(f * omega) / sinO;
-          const lift = 1 + (0.07 + (0.42 * omega) / Math.PI) * Math.sin(Math.PI * f);
+          const lift = isAir
+            ? 1 + (0.022 + (0.095 * omega) / Math.PI) * Math.sin(Math.PI * f)
+            : 1 + (0.004 + (0.014 * omega) / Math.PI) * Math.sin(Math.PI * f);
           pts[k * 3] = lift * (s0 * a[0] + s1 * b[0]);
           pts[k * 3 + 1] = lift * (s0 * a[1] + s1 * b[1]);
           pts[k * 3 + 2] = lift * (s0 * a[2] + s1 * b[2]);
         }
-        return pts;
+        return {
+          mode: def.mode,
+          phase: (idx * 0.37) % 1,
+          pts: pts
+        };
       });
 
       // State & Layout metrics
@@ -2216,6 +2445,13 @@
 
       let curClipT = 0;
       let targetClipT = 0;
+      let curWheelTravel = 0;
+      let lastWheelAngle = -1;
+      let lastWheelAlpha = -1;
+      let clipWState = 1600;
+      let clipHState = 900;
+      let wheelBandW = 704;
+      let wheelBandH = 81;
       let pendingSeek = false;
       let lastScrollY = window.scrollY || 0;
       let lastFrameTs = 0;
@@ -2323,6 +2559,22 @@
         svid.style.width = clipW + 'px';
         svid.style.height = clipH + 'px';
 
+        clipWState = clipW;
+        clipHState = clipH;
+        wheelBandW = Math.max(1, Math.round(0.44 * clipW));
+        wheelBandH = Math.max(1, Math.round(0.09 * clipH));
+        swheels.style.left = (clipLeft + 0.22 * clipW) + 'px';
+        swheels.style.top = (clipTop + 0.38 * clipH) + 'px';
+        swheels.style.width = wheelBandW + 'px';
+        swheels.style.height = wheelBandH + 'px';
+        const wTargetW = Math.round(wheelBandW * dpr);
+        const wTargetH = Math.round(wheelBandH * dpr);
+        if (swheels.width !== wTargetW || swheels.height !== wTargetH) {
+          swheels.width = wTargetW;
+          swheels.height = wTargetH;
+          lastWheelAngle = -1;
+        }
+
         const edgePx = clipTop + 0.448 * clipH;
         const clip90 = clipTop + 0.9 * clipH;
         scene.style.setProperty('--edge-px', edgePx + 'px');
@@ -2341,15 +2593,23 @@
       const SIN_T = Math.sin(TILT);
 
       function drawGlobe(tSec) {
-        const scale = isPort ? (1.25 * vw) / 800 : uv;
-        const ox = vw - 1440 * scale;
-        const oy = isPort ? 16 - 130 * scale : Math.min(0, (heroH - 900 * scale) / 2);
-        const cx = ox + 1166 * scale;
-        const cy = oy + 530 * scale;
-        const R = 400 * scale;
+        let scale, cx, cy, R;
+        if (isPort) {
+          R = Math.min(vw * 0.43, canvasH * 0.43, 270);
+          scale = R / 400;
+          cx = vw * 0.5;
+          cy = Math.max(R * 1.18, canvasH * 0.53);
+        } else {
+          scale = isLand ? Math.min(uv, uc) : Math.min(uv, vw / 1280);
+          const ox = vw - 1440 * scale;
+          const oy = Math.min(0, (heroH - 900 * scale) / 2);
+          cx = ox + 1166 * scale;
+          cy = oy + 530 * scale;
+          R = 400 * scale;
+        }
 
         const introAlpha = reducedMotion ? 1 : 1 - Math.pow(1 - clamp(tSec / 1.1, 0, 1), 3);
-        const viewLonDeg = reducedMotion ? -10 : -10 - tSec * 2.4;
+        const viewLonDeg = reducedMotion ? -10 : -10 - tSec * 8.5;
         const viewLon = (viewLonDeg * Math.PI) / 180;
         const cl = Math.cos(viewLon);
         const sl = Math.sin(viewLon);
@@ -2482,73 +2742,221 @@
         ctx.restore(); // unclip
         ctx.globalAlpha = introAlpha;
 
-        // 6. Route arcs
-        ctx.lineWidth = Math.max(1, 1.15 * scale);
-        ctx.strokeStyle = 'rgba(47,99,255,0.8)';
+        // 6. Air Freight (elevated solid flight arcs + flight chevrons) & Sea Freight (surface-hugging dashed sea lanes + vessel markers)
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        const airHaloW = Math.max(2.4, 2.7 * scale);
+        const airCoreW = Math.max(1.3, 1.5 * scale);
+        const seaHaloW = Math.max(2.0, 2.2 * scale);
+        const seaCoreW = Math.max(1.1, 1.25 * scale);
+        const seaDash = [4.5 * scale, 4.2 * scale];
+
+        function projArcPt(vx, vy, vz) {
+          const x1 = vx * cl - vz * sl;
+          const z1 = vz * cl + vx * sl;
+          const y2 = vy * COS_T - z1 * SIN_T;
+          const z2 = vy * SIN_T + z1 * COS_T;
+          const vis = z2 > 0 || x1 * x1 + y2 * y2 > 1;
+          return { sx: cx + R * x1, sy: cy - R * y2, z2: z2, vis: vis };
+        }
+
+        function findHorizonCross(ax, ay, az, bx, by, bz, aVis) {
+          let lo = 0;
+          let hi = 1;
+          for (let it = 0; it < 6; it++) {
+            const mid = 0.5 * (lo + hi);
+            const p = projArcPt(ax + (bx - ax) * mid, ay + (by - ay) * mid, az + (bz - az) * mid);
+            if (p.vis === aVis) lo = mid;
+            else hi = mid;
+          }
+          const tCross = 0.5 * (lo + hi);
+          return projArcPt(ax + (bx - ax) * tCross, ay + (by - ay) * tCross, az + (bz - az) * tCross);
+        }
+
         for (let aIdx = 0; aIdx < ARCS.length; aIdx++) {
-          const arcProg = reducedMotion ? 1 : clamp((tSec - (1.0 + aIdx * 0.18)) / 1.1, 0, 1);
+          const arcProg = reducedMotion ? 1 : clamp((tSec - (0.85 + aIdx * 0.06)) / 0.9, 0, 1);
           if (arcProg <= 0) continue;
-          const pts = ARCS[aIdx];
-          const maxSeg = arcProg * 56;
+          const arcObj = ARCS[aIdx];
+          const isAir = arcObj.mode === 'air';
+          const pts = arcObj.pts;
+          const maxSeg = arcProg * ARC_SEGS;
           const whole = Math.floor(maxSeg);
           const frac = maxSeg - whole;
 
-          ctx.beginPath();
-          let drawing = false;
+          const samples = [];
           for (let k = 0; k <= whole; k++) {
-            const vx = pts[k * 3];
-            const vy = pts[k * 3 + 1];
-            const vz = pts[k * 3 + 2];
-            const x1 = vx * cl - vz * sl;
-            const z1 = vz * cl + vx * sl;
-            const y2 = vy * COS_T - z1 * SIN_T;
-            const z2 = vy * SIN_T + z1 * COS_T;
-            const vis = z2 > 0 || x1 * x1 + y2 * y2 > 1;
-            const sx = cx + R * x1;
-            const sy = cy - R * y2;
-            if (vis) {
-              if (!drawing) {
-                ctx.moveTo(sx, sy);
-                drawing = true;
-              } else {
-                ctx.lineTo(sx, sy);
-              }
-            } else {
-              drawing = false;
-            }
+            samples.push([pts[k * 3], pts[k * 3 + 1], pts[k * 3 + 2]]);
           }
-          if (whole < 56 && frac > 0.001) {
+          if (whole < ARC_SEGS && frac > 0.001) {
             const i0 = whole * 3;
             const i1 = (whole + 1) * 3;
-            const vx = pts[i0] + (pts[i1] - pts[i0]) * frac;
-            const vy = pts[i0 + 1] + (pts[i1 + 1] - pts[i0 + 1]) * frac;
-            const vz = pts[i0 + 2] + (pts[i1 + 2] - pts[i0 + 2]) * frac;
-            const x1 = vx * cl - vz * sl;
-            const z1 = vz * cl + vx * sl;
-            const y2 = vy * COS_T - z1 * SIN_T;
-            const z2 = vy * SIN_T + z1 * COS_T;
-            if (z2 > 0 || x1 * x1 + y2 * y2 > 1) {
-              const sx = cx + R * x1;
-              const sy = cy - R * y2;
-              if (drawing) ctx.lineTo(sx, sy);
+            samples.push([
+              pts[i0] + (pts[i1] - pts[i0]) * frac,
+              pts[i0 + 1] + (pts[i1 + 1] - pts[i0 + 1]) * frac,
+              pts[i0 + 2] + (pts[i1 + 2] - pts[i0 + 2]) * frac
+            ]);
+          }
+          if (samples.length < 2) continue;
+
+          const frontSegments = [];
+          const limbSegments = [];
+          let prevRaw = samples[0];
+          let prevProj = projArcPt(prevRaw[0], prevRaw[1], prevRaw[2]);
+
+          for (let s = 1; s < samples.length; s++) {
+            const curRaw = samples[s];
+            const curProj = projArcPt(curRaw[0], curRaw[1], curRaw[2]);
+            let p0 = null;
+            let p1 = null;
+            if (prevProj.vis && curProj.vis) {
+              p0 = prevProj;
+              p1 = curProj;
+            } else if (prevProj.vis && !curProj.vis) {
+              p0 = prevProj;
+              p1 = findHorizonCross(prevRaw[0], prevRaw[1], prevRaw[2], curRaw[0], curRaw[1], curRaw[2], true);
+            } else if (!prevProj.vis && curProj.vis) {
+              p0 = findHorizonCross(prevRaw[0], prevRaw[1], prevRaw[2], curRaw[0], curRaw[1], curRaw[2], false);
+              p1 = curProj;
+            }
+            if (p0 && p1) {
+              const avgZ = 0.5 * (p0.z2 + p1.z2);
+              if (avgZ >= 0) {
+                frontSegments.push([p0.sx, p0.sy, p1.sx, p1.sy]);
+              } else {
+                const fade = clamp(1 + avgZ * 7, 0, 1);
+                if (fade > 0.02) {
+                  limbSegments.push([p0.sx, p0.sy, p1.sx, p1.sy, fade]);
+                }
+              }
+            }
+            prevRaw = curRaw;
+            prevProj = curProj;
+          }
+
+          if (frontSegments.length) {
+            ctx.beginPath();
+            for (let k = 0; k < frontSegments.length; k++) {
+              const seg = frontSegments[k];
+              ctx.moveTo(seg[0], seg[1]);
+              ctx.lineTo(seg[2], seg[3]);
+            }
+            if (isAir) {
+              ctx.setLineDash([]);
+              ctx.globalAlpha = introAlpha * 0.58;
+              ctx.lineWidth = airHaloW;
+              ctx.strokeStyle = '#ffffff';
+              ctx.stroke();
+
+              ctx.globalAlpha = introAlpha * 0.95;
+              ctx.lineWidth = airCoreW;
+              ctx.strokeStyle = '#2f63ff';
+              ctx.stroke();
+            } else {
+              ctx.setLineDash(seaDash);
+              ctx.globalAlpha = introAlpha * 0.42;
+              ctx.lineWidth = seaHaloW;
+              ctx.strokeStyle = '#ffffff';
+              ctx.stroke();
+
+              ctx.globalAlpha = introAlpha * 0.78;
+              ctx.lineWidth = seaCoreW;
+              ctx.strokeStyle = '#2f63ff';
+              ctx.stroke();
+              ctx.setLineDash([]);
             }
           }
-          ctx.stroke();
+
+          for (let k = 0; k < limbSegments.length; k++) {
+            const seg = limbSegments[k];
+            ctx.beginPath();
+            ctx.moveTo(seg[0], seg[1]);
+            ctx.lineTo(seg[2], seg[3]);
+            ctx.setLineDash(isAir ? [] : seaDash);
+            ctx.globalAlpha = introAlpha * (isAir ? 0.45 : 0.32) * seg[4];
+            ctx.lineWidth = isAir ? airHaloW : seaHaloW;
+            ctx.strokeStyle = '#ffffff';
+            ctx.stroke();
+
+            ctx.globalAlpha = introAlpha * (isAir ? 0.88 : 0.72) * seg[4];
+            ctx.lineWidth = isAir ? airCoreW : seaCoreW;
+            ctx.strokeStyle = '#2f63ff';
+            ctx.stroke();
+          }
+          ctx.setLineDash([]);
+
+          // Animated transit markers (fast directional chevron for flights, steady vessel diamond for sea lanes)
+          if (arcProg >= 0.98) {
+            const speed = isAir ? 0.13 : 0.045;
+            const fPos = reducedMotion ? 0.5 : (tSec * speed + arcObj.phase) % 1;
+            const idxF = fPos * ARC_SEGS;
+            const k0 = Math.min(ARC_SEGS - 1, Math.floor(idxF));
+            const kf = idxF - k0;
+            const mx = pts[k0 * 3] + (pts[(k0 + 1) * 3] - pts[k0 * 3]) * kf;
+            const my = pts[k0 * 3 + 1] + (pts[(k0 + 1) * 3 + 1] - pts[k0 * 3 + 1]) * kf;
+            const mz = pts[k0 * 3 + 2] + (pts[(k0 + 1) * 3 + 2] - pts[k0 * 3 + 2]) * kf;
+            const mp = projArcPt(mx, my, mz);
+            if (
+              mp.z2 > 0.12 &&
+              mp.sx > 8 && mp.sx < canvasW - 8 &&
+              mp.sy > 8 && mp.sy < canvasH - 8
+            ) {
+              const np = projArcPt(pts[(k0 + 1) * 3], pts[(k0 + 1) * 3 + 1], pts[(k0 + 1) * 3 + 2]);
+              const dx = np.sx - mp.sx;
+              const dy = np.sy - mp.sy;
+              const len = Math.hypot(dx, dy);
+              if (len > 0.01) {
+                const ang = Math.atan2(dy, dx);
+                const mAlpha = introAlpha * clamp((mp.z2 - 0.12) * 5, 0, 1);
+                ctx.save();
+                ctx.translate(mp.sx, mp.sy);
+                ctx.rotate(ang);
+                ctx.globalAlpha = mAlpha;
+                if (isAir) {
+                  const sz = Math.max(4.2, 5.2 * scale);
+                  ctx.beginPath();
+                  ctx.moveTo(sz, 0);
+                  ctx.lineTo(-sz * 0.65, -sz * 0.55);
+                  ctx.lineTo(-sz * 0.3, 0);
+                  ctx.lineTo(-sz * 0.65, sz * 0.55);
+                  ctx.closePath();
+                  ctx.fillStyle = '#2f63ff';
+                  ctx.strokeStyle = '#ffffff';
+                  ctx.lineWidth = Math.max(1.1, 1.3 * scale);
+                  ctx.stroke();
+                  ctx.fill();
+                } else {
+                  const sz = Math.max(2.8, 3.4 * scale);
+                  ctx.beginPath();
+                  ctx.moveTo(sz, 0);
+                  ctx.lineTo(0, -sz * 0.65);
+                  ctx.lineTo(-sz, 0);
+                  ctx.lineTo(0, sz * 0.65);
+                  ctx.closePath();
+                  ctx.fillStyle = '#ffffff';
+                  ctx.strokeStyle = '#2f63ff';
+                  ctx.lineWidth = Math.max(1.2, 1.4 * scale);
+                  ctx.fill();
+                  ctx.stroke();
+                }
+                ctx.restore();
+              }
+            }
+          }
         }
 
-        // 7. City pins and labels
-        const pinR = Math.max(3, 4.6 * scale);
-        const labelSize = isPort ? Math.max(9.5, 12.5 * scale) : 12.5 * scale;
+        // 7. City pins and collision-free labels (strictly bound to visible in-canvas pins so passed cities never hang)
+        const pinR = Math.max(2.6, 3.8 * scale);
+        const labelSize = isPort ? Math.max(9.0, Math.min(11.0, 12.5 * scale)) : Math.max(9.8, 11.8 * scale);
         ctx.font = '500 ' + labelSize + 'px "JetBrains Mono", ui-monospace, monospace';
-        ctx.textAlign = 'center';
         ctx.textBaseline = 'alphabetic';
         if ('letterSpacing' in ctx) {
           ctx.letterSpacing = (labelSize * 0.05) + 'px';
         }
 
+        const visibleCities = [];
         for (let cIdx = 0; cIdx < CITIES.length; cIdx++) {
           const city = CITIES[cIdx];
-          const pinProg = reducedMotion ? 1 : clamp((tSec - (0.8 + cIdx * 0.16)) / 0.6, 0, 1);
+          const pinProg = reducedMotion ? 1 : clamp((tSec - (0.55 + cIdx * 0.03)) / 0.45, 0, 1);
           if (pinProg <= 0) continue;
 
           const vx = city.v[0];
@@ -2558,26 +2966,220 @@
           const z1 = vz * cl + vx * sl;
           const y2 = vy * COS_T - z1 * SIN_T;
           const z2 = vy * SIN_T + z1 * COS_T;
-          const alpha = introAlpha * clamp(z2 * 5, 0, 1) * pinProg;
-          if (alpha <= 0.005) continue;
-
           const px = cx + R * x1;
           const py = cy - R * y2;
+          if (px < pinR + 3 || px > canvasW - pinR - 3 || py < pinR + 3 || py > canvasH - pinR - 3) continue;
 
-          ctx.globalAlpha = alpha;
+          const edgeDist = Math.min(px - pinR, canvasW - pinR - px, py - pinR, canvasH - pinR - py);
+          const edgeFade = clamp(edgeDist / 26, 0, 1);
+          const alpha = introAlpha * clamp(z2 * 5, 0, 1) * edgeFade * pinProg;
+          if (alpha <= 0.005) continue;
+
+          visibleCities.push({
+            name: city.name,
+            px: px,
+            py: py,
+            z2: z2,
+            alpha: alpha,
+            labelAlpha: introAlpha * clamp((z2 - 0.16) * 5.5, 0, 1) * edgeFade * pinProg
+          });
+        }
+
+        // Sort front-most cities highest priority for label placement
+        visibleCities.sort(function (a, b) { return b.z2 - a.z2; });
+        const placedLabels = [];
+        const pinMargin = pinR + 3;
+        const pad = 3;
+
+        // Draw pins first so crisp labels sit cleanly above pins without overlapping dots
+        for (let i = 0; i < visibleCities.length; i++) {
+          const item = visibleCities[i];
+          ctx.globalAlpha = item.alpha;
           ctx.fillStyle = '#2f63ff';
           ctx.strokeStyle = '#ffffff';
-          ctx.lineWidth = 1.5;
+          ctx.lineWidth = Math.max(1.2, 1.4 * scale);
           ctx.beginPath();
-          ctx.arc(px, py, pinR, 0, Math.PI * 2);
+          ctx.arc(item.px, item.py, pinR, 0, Math.PI * 2);
           ctx.fill();
           ctx.stroke();
+        }
 
-          ctx.fillStyle = '#111111';
-          ctx.fillText(city.name, px, py - (pinR + 0.55 * labelSize));
+        for (let i = 0; i < visibleCities.length; i++) {
+          const item = visibleCities[i];
+          if (item.labelAlpha <= 0.02) continue;
+
+          const textW = ctx.measureText(item.name).width;
+          const textH = labelSize;
+          const candidates = [
+            { x: item.px, y: item.py - (pinR + 0.55 * labelSize), align: 'center' },
+            { x: item.px, y: item.py + (pinR + 1.25 * labelSize), align: 'center' },
+            { x: item.px + pinR + 5, y: item.py + 0.35 * labelSize, align: 'left' },
+            { x: item.px - (pinR + 5), y: item.py + 0.35 * labelSize, align: 'right' },
+            { x: item.px + pinR + 4, y: item.py - (pinR + 0.35 * labelSize), align: 'left' },
+            { x: item.px - (pinR + 4), y: item.py - (pinR + 0.35 * labelSize), align: 'right' },
+            { x: item.px + pinR + 4, y: item.py + (pinR + 1.05 * labelSize), align: 'left' },
+            { x: item.px - (pinR + 4), y: item.py + (pinR + 1.05 * labelSize), align: 'right' }
+          ];
+
+          let chosen = null;
+          for (let c = 0; c < candidates.length; c++) {
+            const cand = candidates[c];
+            const left = cand.align === 'center' ? cand.x - textW / 2 : cand.align === 'left' ? cand.x : cand.x - textW;
+            const right = left + textW;
+            const top = cand.y - textH;
+            const bottom = cand.y + 2;
+            if (left < 6 || right > canvasW - 6 || top < 4 || bottom > canvasH - 4) continue;
+
+            let hits = false;
+            for (let p = 0; p < placedLabels.length; p++) {
+              const r = placedLabels[p];
+              if (left - pad < r.right && right + pad > r.left && top - pad < r.bottom && bottom + pad > r.top) {
+                hits = true;
+                break;
+              }
+            }
+            if (!hits) {
+              for (let j = 0; j < visibleCities.length; j++) {
+                const vc = visibleCities[j];
+                if (
+                  left - 2 < vc.px + pinMargin &&
+                  right + 2 > vc.px - pinMargin &&
+                  top - 2 < vc.py + pinMargin &&
+                  bottom + 2 > vc.py - pinMargin
+                ) {
+                  hits = true;
+                  break;
+                }
+              }
+            }
+            if (!hits) {
+              chosen = { drawX: left, drawY: cand.y, left: left, right: right, top: top, bottom: bottom };
+              break;
+            }
+          }
+
+          if (chosen) {
+            placedLabels.push(chosen);
+            ctx.globalAlpha = item.labelAlpha;
+            ctx.textAlign = 'left';
+            ctx.lineWidth = Math.max(2.6, 3.2 * scale);
+            ctx.strokeStyle = 'rgba(246, 248, 255, 0.94)';
+            ctx.strokeText(item.name, chosen.drawX, chosen.drawY);
+            ctx.fillStyle = '#111111';
+            ctx.fillText(item.name, chosen.drawX, chosen.drawY);
+          }
         }
 
         ctx.restore();
+      }
+
+      // Services Semi-Truck Rotating Wheels (normalized to 1920x1080 video frame)
+      const TRUCK_WHEELS = [
+        { u: 0.25625, v: 0.42556, r: 0.01333, holes: 10, phase: 0.0 }, // trailer rear 1
+        { u: 0.29375, v: 0.42556, r: 0.01333, holes: 10, phase: 1.1 }, // trailer rear 2
+        { u: 0.33125, v: 0.42556, r: 0.01333, holes: 10, phase: 2.3 }, // trailer rear 3
+        { u: 0.50500, v: 0.42556, r: 0.01389, holes: 10, phase: 0.7 }, // tractor drive
+        { u: 0.61813, v: 0.42389, r: 0.01444, holes: 10, phase: 1.8 }  // tractor steer
+      ];
+
+      function drawTruckWheels(angle) {
+        wCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        wCtx.clearRect(0, 0, wheelBandW, wheelBandH);
+
+        for (let i = 0; i < TRUCK_WHEELS.length; i++) {
+          const w = TRUCK_WHEELS[i];
+          const wx = (w.u - 0.22) * clipWState;
+          const wy = (w.v - 0.38) * clipHState;
+          const rimR = w.r * clipHState;
+          const tireR = rimR * 1.56;
+
+          wCtx.save();
+          wCtx.translate(wx, wy);
+
+          // Rotating tire sidewall marks + metallic rim + lug holes
+          wCtx.save();
+          wCtx.rotate(angle + w.phase);
+
+          // Subtle rotating tread ticks on dark rubber tire ring
+          wCtx.lineWidth = Math.max(1, rimR * 0.12);
+          for (let t = 0; t < 12; t++) {
+            const ta = (t * Math.PI * 2) / 12;
+            const ca = Math.cos(ta);
+            const sa = Math.sin(ta);
+            wCtx.strokeStyle = t % 2 === 0 ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.22)';
+            wCtx.beginPath();
+            wCtx.moveTo(ca * rimR * 1.08, sa * rimR * 1.08);
+            wCtx.lineTo(ca * tireR, sa * tireR);
+            wCtx.stroke();
+          }
+
+          // Metallic rim dish
+          const rimGrad = wCtx.createRadialGradient(0, 0, rimR * 0.18, 0, 0, rimR * 0.95);
+          rimGrad.addColorStop(0, '#4a505a');
+          rimGrad.addColorStop(0.32, '#cfd5de');
+          rimGrad.addColorStop(0.76, '#aeb5c0');
+          rimGrad.addColorStop(1, '#585f6a');
+          wCtx.fillStyle = rimGrad;
+          wCtx.beginPath();
+          wCtx.arc(0, 0, rimR * 0.95, 0, Math.PI * 2);
+          wCtx.fill();
+
+          // Outer bead rim highlight
+          wCtx.strokeStyle = 'rgba(240,244,250,0.55)';
+          wCtx.lineWidth = Math.max(0.8, rimR * 0.08);
+          wCtx.beginPath();
+          wCtx.arc(0, 0, rimR * 0.88, 0, Math.PI * 2);
+          wCtx.stroke();
+
+          // 10 ventilation holes
+          const holeDist = rimR * 0.65;
+          const holeR = Math.max(0.9, rimR * 0.125);
+          wCtx.fillStyle = '#181b20';
+          for (let h = 0; h < w.holes; h++) {
+            const ha = (h * Math.PI * 2) / w.holes;
+            wCtx.beginPath();
+            wCtx.arc(Math.cos(ha) * holeDist, Math.sin(ha) * holeDist, holeR, 0, Math.PI * 2);
+            wCtx.fill();
+          }
+
+          // Recessed center axle hub + lug bolts + center bar
+          wCtx.fillStyle = '#252930';
+          wCtx.beginPath();
+          wCtx.arc(0, 0, rimR * 0.34, 0, Math.PI * 2);
+          wCtx.fill();
+
+          const lugDist = rimR * 0.39;
+          const lugR = Math.max(0.6, rimR * 0.062);
+          wCtx.fillStyle = '#e2e6ed';
+          for (let l = 0; l < 6; l++) {
+            const la = (l * Math.PI * 2) / 6;
+            wCtx.beginPath();
+            wCtx.arc(Math.cos(la) * lugDist, Math.sin(la) * lugDist, lugR, 0, Math.PI * 2);
+            wCtx.fill();
+          }
+
+          wCtx.strokeStyle = '#9aa2ae';
+          wCtx.lineWidth = Math.max(1, rimR * 0.14);
+          wCtx.lineCap = 'round';
+          wCtx.beginPath();
+          wCtx.moveTo(-rimR * 0.18, 0);
+          wCtx.lineTo(rimR * 0.18, 0);
+          wCtx.stroke();
+
+          wCtx.restore();
+
+          // Static top-down fender shadow so lighting stays realistic while hub spins
+          const shade = wCtx.createLinearGradient(0, -rimR, 0, rimR);
+          shade.addColorStop(0, 'rgba(10,12,16,0.44)');
+          shade.addColorStop(0.55, 'rgba(10,12,16,0.08)');
+          shade.addColorStop(1, 'rgba(255,255,255,0.08)');
+          wCtx.fillStyle = shade;
+          wCtx.beginPath();
+          wCtx.arc(0, 0, rimR * 0.96, 0, Math.PI * 2);
+          wCtx.fill();
+
+          wCtx.restore();
+        }
       }
 
       // Glitch & Fade-up Web Animations
@@ -2591,7 +3193,7 @@
 
       function runGlitchReveal(el, delayMs, onDone) {
         if (reducedMotion || !el.animate) {
-          el.classList.remove('ent');
+          el.classList.remove('ent', 'rv');
           if (onDone) onDone();
           return null;
         }
@@ -2602,7 +3204,7 @@
           fill: 'backwards'
         });
         anim.onfinish = function () {
-          el.classList.remove('ent');
+          el.classList.remove('ent', 'rv');
           if (onDone) onDone();
         };
         return anim;
@@ -2610,7 +3212,7 @@
 
       function runFadeUp(el, distPx, durationMs, delayMs) {
         if (reducedMotion || !el.animate) {
-          el.classList.remove('ent');
+          el.classList.remove('ent', 'rv');
           return null;
         }
         const anim = el.animate(
@@ -2626,7 +3228,54 @@
           }
         );
         anim.onfinish = function () {
-          el.classList.remove('ent');
+          el.classList.remove('ent', 'rv');
+        };
+        return anim;
+      }
+
+      function runFlyIn(el, fromX, durationMs, delayMs) {
+        if (reducedMotion || !el.animate) {
+          el.classList.remove('ent', 'rv');
+          return null;
+        }
+        const anim = el.animate(
+          [
+            { opacity: 0, transform: 'translateX(' + fromX + ')' },
+            { opacity: 1, transform: 'none' }
+          ],
+          {
+            duration: durationMs,
+            delay: delayMs || 0,
+            easing: 'cubic-bezier(.2, .7, .2, 1)',
+            fill: 'backwards'
+          }
+        );
+        anim.onfinish = function () {
+          el.classList.remove('ent', 'rv');
+        };
+        return anim;
+      }
+
+      function runClipWipe(el, fromClip, durationMs, delayMs, cls) {
+        const hideCls = cls || 'rv-wipe';
+        if (reducedMotion || !el.animate) {
+          el.classList.remove(hideCls, 'rv', 'ent');
+          return null;
+        }
+        const anim = el.animate(
+          [
+            { clipPath: fromClip },
+            { clipPath: 'inset(0 0 0 0)' }
+          ],
+          {
+            duration: durationMs,
+            delay: delayMs || 0,
+            easing: 'cubic-bezier(.7, 0, .2, 1)',
+            fill: 'backwards'
+          }
+        );
+        anim.onfinish = function () {
+          el.classList.remove(hideCls, 'rv', 'ent');
         };
         return anim;
       }
@@ -2838,14 +3487,16 @@
         // 2. Services Scroll Scene
         const q = clamp((scrollY - trackTop) / (A * vh), 0, 1);
         const dur = svid.duration && isFinite(svid.duration) ? svid.duration : 4.041667;
-        targetClipT = q * Math.max(0, dur - 1 / 48);
+        const maxClipT = Math.max(0.01, dur - 1 / 48);
+        targetClipT = q * maxClipT;
 
         if (forceExactClip) {
           curClipT = targetClipT;
           try { svid.currentTime = curClipT; } catch (err) {}
         } else {
-          curClipT += (targetClipT - curClipT) * 0.2;
-          if (!pendingSeek && svid.readyState >= 1 && Math.abs(svid.currentTime - curClipT) > 1 / 60) {
+          const clipGap = targetClipT - curClipT;
+          curClipT += clipGap * (Math.abs(clipGap) > 0.35 ? 0.45 : 0.2);
+          if ((!pendingSeek || !svid.seeking) && svid.readyState >= 1 && Math.abs(svid.currentTime - curClipT) > 1 / 60) {
             pendingSeek = true;
             try { svid.currentTime = curClipT; } catch (err) {
               pendingSeek = false;
@@ -2854,6 +3505,27 @@
         }
 
         scene.style.setProperty('--ph', q >= 0.94 ? '1' : '0');
+
+        // Rotating truck wheels synchronized to settled driving frame & road motion
+        const vidQ = svid.readyState >= 2 ? clamp(svid.currentTime / maxClipT, 0, 1) : 0;
+        const effQ = forceExactClip ? q : Math.min(q, vidQ);
+        const wheelAlpha = reducedMotion ? 0 : clamp((effQ - 0.94) / 0.03, 0, 1);
+        const targetTravel = Math.max(0, scrollY - (trackTop + 0.94 * A * vh));
+        if (forceExactClip) {
+          curWheelTravel = targetTravel;
+        } else {
+          curWheelTravel += (targetTravel - curWheelTravel) * 0.22;
+        }
+        const tireRadiusPx = Math.max(8, 0.0244 * clipHState);
+        const wheelAngle = curWheelTravel / tireRadiusPx;
+        if (Math.abs(wheelAlpha - lastWheelAlpha) > 0.004) {
+          lastWheelAlpha = wheelAlpha;
+          swheels.style.opacity = wheelAlpha.toFixed(3);
+        }
+        if (wheelAlpha > 0.005 && Math.abs(wheelAngle - lastWheelAngle) > 0.002) {
+          lastWheelAngle = wheelAngle;
+          drawTruckWheels(wheelAngle);
+        }
 
         const r = clamp((scrollY - trackTop - A * vh) / (B * vh), 0, 1);
         const stripX = vw - r * (stripW + 0.45 * vw);
@@ -2869,6 +3541,20 @@
           const val = sPct.toFixed(2) + '%';
           cardObj.ct.style.setProperty('--s', val);
           cardObj.cbdy.style.setProperty('--s', val);
+        }
+
+        // 3. How It Works step numerals (scroll-linked --muted2 -> --cobalt)
+        if (!reducedMotion) {
+          for (let h = 0; h < howSteps.length; h++) {
+            const hs = howSteps[h];
+            const rect = hs.el.getBoundingClientRect();
+            const thresh = isHp ? 0.72 * vh : (0.78 - h * 0.1) * vh;
+            const nextColor = rect.top <= thresh ? 'var(--cobalt)' : 'var(--muted2)';
+            if (hs.nc !== nextColor) {
+              hs.nc = nextColor;
+              hs.el.style.setProperty('--nc', nextColor);
+            }
+          }
         }
 
         return targetClipT;
@@ -2955,16 +3641,23 @@
       // Lower Sections Reveal Observers (How it works, FAQ, Contact, Footer)
       function setupLowerObservers() {
         const howSection = document.getElementById('how');
-        const faqSection = document.getElementById('faq');
+        const faqHead = document.getElementById('faq-head');
+        const faqItems = Array.from(document.querySelectorAll('#faq-list .faq-item'));
         const contactSection = document.getElementById('contact');
         const footerSection = document.getElementById('footer');
 
-        const lowerEnts = document.querySelectorAll('#how .ent, #faq .ent, #contact .ent, #footer .ent');
+        const lowerRvs = document.querySelectorAll('#how .rv, #faq .rv, #contact .rv, #footer .rv');
+        const lowerWipes = document.querySelectorAll('#how .rv-wipe-x, #footer .rv-wipe');
         const lowerHls = document.querySelectorAll('#how .pre-hl, #faq .pre-hl');
 
         if (reducedMotion) {
-          lowerEnts.forEach(function (el) { el.classList.remove('ent'); });
+          lowerRvs.forEach(function (el) { el.classList.remove('rv'); });
+          lowerWipes.forEach(function (el) { el.classList.remove('rv-wipe', 'rv-wipe-x'); });
           lowerHls.forEach(function (el) { el.classList.remove('pre-hl'); });
+          howSteps.forEach(function (hs) {
+            hs.nc = 'var(--cobalt)';
+            hs.el.style.setProperty('--nc', 'var(--cobalt)');
+          });
           return;
         }
 
@@ -2993,47 +3686,88 @@
           });
           steps.forEach(function (step, idx) {
             step.classList.remove('pre-hl');
-            runFadeUp(step, 14, 850, 120 + idx * 90);
+            if (isHp) {
+              runFadeUp(step, 16, 900, 120 + idx * 90);
+            } else {
+              runFlyIn(step, idx < 2 ? '-10vw' : '10vw', 900, 120 + idx * 90);
+            }
           });
-          if (note) runFadeUp(note, 12, 800, 480);
+          if (note) runClipWipe(note, 'inset(0 100% 0 0)', 1000, 420, 'rv-wipe-x');
         });
 
-        observeBlock(faqSection, function () {
-          const ov = faqSection.querySelector('.sec-ov');
-          const lines = faqSection.querySelectorAll('.sec-hl .ln');
-          const items = faqSection.querySelectorAll('.faq-item');
-          if (ov) runFadeUp(ov, 12, 800, 0);
+        observeBlock(faqHead, function () {
+          if (isHp) {
+            runFadeUp(faqHead, 16, 900, 0);
+          } else {
+            runFlyIn(faqHead, '-8vw', 900, 0);
+          }
+          const lines = faqHead.querySelectorAll('.sec-hl .ln');
           lines.forEach(function (ln, idx) {
-            runGlitchReveal(ln, idx * 130);
-          });
-          items.forEach(function (item, idx) {
-            item.classList.remove('pre-hl');
-            runFadeUp(item, 14, 800, 80 + idx * 70);
+            runGlitchReveal(ln, 100 + idx * 130);
           });
         });
+
+        if (faqItems.length) {
+          const faqRowObs = new IntersectionObserver(function (entries) {
+            let batchIdx = 0;
+            entries.forEach(function (entry) {
+              if (!entry.isIntersecting) return;
+              const item = entry.target;
+              faqRowObs.unobserve(item);
+              item.classList.remove('pre-hl');
+              const btn = item.querySelector('.faq-btn');
+              if (btn) {
+                runFadeUp(btn, 12, 800, 140 + batchIdx * 70);
+              }
+              batchIdx++;
+            });
+          }, obsOpts);
+          faqItems.forEach(function (item) {
+            faqRowObs.observe(item);
+          });
+        }
 
         observeBlock(contactSection, function () {
+          const contactInfo = document.getElementById('contact-info');
           const ov = contactSection.querySelector('.sec-ov');
           const lines = contactSection.querySelectorAll('.sec-hl .ln');
           const lede = contactSection.querySelector('.contact-lede');
           const details = contactSection.querySelector('.contact-details');
           const formWrap = document.getElementById('quote-wrap');
-          if (ov) runFadeUp(ov, 12, 800, 0);
+          const fields = contactSection.querySelectorAll('.qfield, .qactions');
+
+          if (contactInfo) {
+            if (isHp) {
+              runFadeUp(contactInfo, 16, 900, 0);
+            } else {
+              runFlyIn(contactInfo, '-10vw', 900, 0);
+            }
+          }
+          if (ov) runFadeUp(ov, 12, 800, 60);
           lines.forEach(function (ln, idx) {
-            runGlitchReveal(ln, idx * 130);
+            runGlitchReveal(ln, 100 + idx * 130);
           });
           if (lede) runFadeUp(lede, 14, 850, 180);
-          if (details) runFadeUp(details, 14, 850, 270);
-          if (formWrap) runFadeUp(formWrap, 16, 900, 220);
+          if (details) runFadeUp(details, 14, 850, 260);
+          if (formWrap) {
+            if (isHp) {
+              runFadeUp(formWrap, 16, 900, 150);
+            } else {
+              runFlyIn(formWrap, '10vw', 900, 150);
+            }
+          }
+          fields.forEach(function (field, idx) {
+            runFadeUp(field, 12, 700, 280 + idx * 60);
+          });
         });
 
         observeBlock(footerSection, function () {
           const cols = footerSection.querySelectorAll('.fcol');
           const bot = footerSection.querySelector('.fbot');
           cols.forEach(function (col, idx) {
-            runFadeUp(col, 14, 800, idx * 90);
+            runClipWipe(col, 'inset(100% 0 0 0)', 1000, idx * 100, 'rv-wipe');
           });
-          if (bot) runFadeUp(bot, 12, 800, cols.length * 90);
+          if (bot) runClipWipe(bot, 'inset(100% 0 0 0)', 1000, cols.length * 100, 'rv-wipe');
         });
       }
 
@@ -3123,10 +3857,10 @@
           submitBtn.disabled = true;
           submitBtn.textContent = 'SENDING...';
 
-          if (!endpoint || endpoint.indexOf('[[PLACEHOLDER') !== -1) {
+          if (!endpoint) {
             submitBtn.disabled = false;
             submitBtn.textContent = 'SEND REQUEST';
-            errorEl.textContent = 'Form endpoint is not configured yet. Please email us directly at [[PLACEHOLDER: contact email]].';
+            errorEl.textContent = 'Form endpoint is not configured yet. Please email us directly at ops@kvfreight.com.';
             errorEl.hidden = false;
             return;
           }
@@ -3167,7 +3901,7 @@
             .catch(function () {
               submitBtn.disabled = false;
               submitBtn.textContent = 'SEND REQUEST';
-              errorEl.textContent = 'Unable to send request right now. Please email us directly at [[PLACEHOLDER: contact email]].';
+              errorEl.textContent = 'Unable to send request right now. Please email us directly at ops@kvfreight.com.';
               errorEl.hidden = false;
             });
         });
@@ -3176,6 +3910,17 @@
       // Initialize
       layout();
       window.addEventListener('resize', layout);
+      window.addEventListener('orientationchange', function () {
+        requestAnimationFrame(layout);
+      });
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(function () {
+          const gRect = gwrap.getBoundingClientRect();
+          if (Math.round(gRect.width) !== canvasW || Math.round(gRect.height) !== canvasH) {
+            layout();
+          }
+        }).observe(gwrap);
+      }
       startHeroEntrance();
       setupStatsObservers();
       setupLowerObservers();

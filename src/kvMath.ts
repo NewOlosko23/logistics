@@ -102,3 +102,80 @@ export function formatThinThousands(n: number): string {
 export function computeCardSweepPercent(cardLeft: number, vw: number): number {
   return clamp((0.98 - cardLeft / vw) / 0.3, -0.4, 1.6) * 100;
 }
+
+export interface GlobeLayout {
+  scale: number;
+  cx: number;
+  cy: number;
+  R: number;
+}
+
+export function computeGlobeLayout(
+  vw: number,
+  heroH: number,
+  canvasH: number,
+  uc: number,
+  uv: number,
+  isPort: boolean,
+  isLand: boolean
+): GlobeLayout {
+  if (isPort) {
+    const R = Math.min(vw * 0.43, canvasH * 0.43, 270);
+    const scale = R / 400;
+    const cx = vw * 0.5;
+    const cy = Math.max(R * 1.18, canvasH * 0.53);
+    return { scale, cx, cy, R };
+  }
+  const scale = isLand ? Math.min(uv, uc) : Math.min(uv, vw / 1280);
+  const ox = vw - 1440 * scale;
+  const oy = Math.min(0, (heroH - 900 * scale) / 2);
+  const cx = ox + 1166 * scale;
+  const cy = oy + 530 * scale;
+  const R = 400 * scale;
+  return { scale, cx, cy, R };
+}
+
+export function computeArcLift(omegaRad: number, f: number, mode: 'air' | 'sea' = 'air'): number {
+  if (mode === 'sea') {
+    return 1 + (0.004 + (0.014 * omegaRad) / Math.PI) * Math.sin(Math.PI * f);
+  }
+  return 1 + (0.022 + (0.095 * omegaRad) / Math.PI) * Math.sin(Math.PI * f);
+}
+
+export function computeCityVisibility(
+  px: number,
+  py: number,
+  z2: number,
+  pinR: number,
+  canvasW: number,
+  canvasH: number
+): { visible: boolean; pinAlpha: number; labelAlpha: number } {
+  if (px < pinR + 3 || px > canvasW - pinR - 3 || py < pinR + 3 || py > canvasH - pinR - 3) {
+    return { visible: false, pinAlpha: 0, labelAlpha: 0 };
+  }
+  const edgeDist = Math.min(px - pinR, canvasW - pinR - px, py - pinR, canvasH - pinR - py);
+  const edgeFade = clamp(edgeDist / 26, 0, 1);
+  const pinAlpha = clamp(z2 * 5, 0, 1) * edgeFade;
+  const labelAlpha = clamp((z2 - 0.16) * 5.5, 0, 1) * edgeFade;
+  return { visible: pinAlpha > 0.005, pinAlpha, labelAlpha };
+}
+
+export function computeWheelRotation(
+  scrollY: number,
+  trackTop: number,
+  A: number,
+  vh: number,
+  clipH: number,
+  reducedMotion: boolean,
+  vidQ = 1
+): { alpha: number; angle: number } {
+  const q = clamp((scrollY - trackTop) / (A * vh), 0, 1);
+  const effQ = Math.min(q, clamp(vidQ, 0, 1));
+  const alpha = reducedMotion ? 0 : clamp((effQ - 0.94) / 0.03, 0, 1);
+  const travel = Math.max(0, scrollY - (trackTop + 0.94 * A * vh));
+  const tireRadiusPx = Math.max(8, 0.0244 * clipH);
+  return { alpha, angle: travel / tireRadiusPx };
+}
+
+
+
